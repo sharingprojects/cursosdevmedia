@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>rest-notas</display-name>
+	<!--Configurações para que as requisições do serviço sejam encaminhadas 
+		para determinado Servlets do nosso projeto. Dentro de uma projeto java, podemos 
+		ter inúmeros outros Servlets, inúmeras outras requisições, sendo consumidas 
+		por outra coisa que não é o nosso serviço, nosso Sevlet é apenas uma parte 
+		de nossa aplicação como um todo. -->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<!-- Como default o nome do meu projeto, esse nome irá aparecer na URL -->
+	<servlet>
+		<!-- mapeando o servlet -->
+		<servlet-name>Jersey REST Service</servlet-name>
+
+		<!-- ServletContainer >> Classe do Jersey responsável por receber e gerenciar 
+			todas as requisições que chegarem para o Restfull dentro dessa aplicação 
+			web, ou seja todas requisição que chegar dentro desse webservice, serão direcionada 
+			para essa classe Como identifico se uma requisição foi direcionada especificamente 
+			para restful, pois podemos ter outros tipos de requisições que não são de 
+			webservices, dentro de um projeto java web ao mesmo tempo? Identifico através 
+			do <url-pattern>/rest/*</url-pattern>... -->
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+
+		<init-param>
+			<!-- O SERVLET-CLASS E O PARAM-NAME NÃO SÃO MODIFICADOS, BASTA COPIAR 
+				E COLAR.. POIS ESTÁ UTILIZANDO O SERVLET QUE VEM NA BIBLIOTECA DO JERSEY -->
+			<param-name>jersey.config.server.provider.packages</param-name>
+
+			<!-- JÁ O PARAM-VALUE É O ENDEREÇO DO PACOTE ONDE SE ENCONTRA O SEU RECURSO -->
+			<param-value>com.devmedia.treinamento.webservice</param-value>
+		</init-param>
+
+<!-- 		<init-param>
+			É uma Feature obrigatória que deve ser mapeada, para que api do Jersey
+			    consiga fazer as conversões automáticas de xml ou json do front-end para o back-end,
+			    em nível de objeto java e vice e versa,  eu só preciso que os atributos dos meus objeto sejam
+			    iguais ao atributo do json ou xml, pois a conversão o POJOMappingFeature fará automaticamente
+			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+			<param-value>true</param-value>
+
+		</init-param> -->
+
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<!--Esse padrão está me dizendo que todas as urls que tiver que ser consumidas 
+			pelo Restful, elas devem conter o meio da sua definição: /rest/. Sempre que 
+			for chamar um serviço, esse é o padrão de um restful para o corpo da url 
+			de requisições. O * representa qualquer coisa para frente será um serviço 
+			mappeado restful no projeto. O termp "rest", pode ser substituido por algo 
+			que melhor represente o seu negócio. -->
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+</web-app>
